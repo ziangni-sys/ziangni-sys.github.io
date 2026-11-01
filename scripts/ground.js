@@ -9,7 +9,7 @@
 //
 //   node scripts/ground.js
 //
-// It also checks that the Genji-kō marks (the brand mark in index.html, the three list marks in
+// It also checks that the Genji-kō marks (the brand mark in index.html, the four list marks in
 // assets/style.css and assets/favicon.svg) are still exactly what tools/genji/genji.js draws, and
 // stops with an error if one is not.
 'use strict';
@@ -108,8 +108,8 @@ const mon = G.render(groups(31), { width: 21, stroke: 1.9 });
 if (!html.includes(`<circle cx="20" cy="20" r="18.6"/><path transform="translate(9.5 9.5)" stroke-width="1.9" d="${mon}"/></svg>\n      <span class="brand-name">`)) {
   problems.push('index.html: the brand mark is not 真木柱 as drawn by genji.js (width 21, stroke 1.9)');
 }
-// the list marks: 真木柱, 帚木, 手習 at width 13, stroke 1, each written twice (-webkit-mask and mask)
-for (const ch of [31, 2, 53]) {
+// the list marks: 真木柱, 帚木, 手習, 澪標 at width 13, stroke 1, each written twice (-webkit-mask and mask)
+for (const ch of [31, 2, 53, 14]) {
   const d = G.render(groups(ch), { width: 13, stroke: 1 });
   if ((css.split(`d='${d}'`).length - 1) !== 2) problems.push(`assets/style.css: the list mark for chapter ${ch} should appear twice as d='${d}'`);
 }
