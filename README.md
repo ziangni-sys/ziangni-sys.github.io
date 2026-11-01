@@ -7,6 +7,7 @@ Ziang Ni 的学术主页，纯静态 HTML/CSS，无需构建，GitHub Pages 直�
 - `index.html`: 全部内容（首页标题、About、News、Publications、Projects、联系方式）
 - `assets/style.css`: 样式、配色和背景纹样。颜色都是 `:root` 里的变量，深色模式的取值紧跟其后（`prefers-color-scheme` 和 `data-theme="dark"` 两处，改色时两处都要改）
 - `assets/favicon.svg`: 网站图标（藏青底上的「真木柱」）
+- `assets/akanezora.svg`: Akanezora Capital 的标志（原图去掉了四周的留白），在 About 第四条里公司名前当作小印章显示（样式见 `.firm`）
 - `scripts/ground.js`: 生成两个纹样单元（矢絣、青海波）的脚本（Node，无依赖）。运行 `node scripts/ground.js`，它只改写 `assets/style.css` 里 `/* gen:tiles */` 与 `/* /gen:tiles */` 之间的四行变量，标记以外的部分不动；运行两次结果相同。它还会核对页眉的家纹、About 列表的四个符号和 favicon 是否仍与渲染器画出的一致，不一致就报错退出
 - `tools/genji/`: 核对过的源氏香数据集和渲染器（见该目录的 README）
 - `assets/ziang_ni_cv.pdf`: 网页上链接的 CV，由 LaTeX 源文件编译而成，只是页眉里去掉了电话号码。更新 CV 时直接用新 PDF 覆盖这个文件（文件名不变，页面上的链接就不用改）
@@ -49,12 +50,13 @@ Ziang Ni 的学术主页，纯静态 HTML/CSS，无需构建，GitHub Pages 直�
 
 - 页眉左上的 `.brand-mark`：加圈的「真木柱」（第 31 帖），像一枚家纹。
 - `assets/favicon.svg`：藏青底上的真木柱。
-- About 列表的四个符号是 CSS 遮罩（`.themes li::before` 里的 data URL），依次是真木柱、帚木、手習、澪標（第四条 Akanezora Capital；澪標是引导船只的航道标），路径是 `render(groups, {width: 13, stroke: 1})`。要换，就把 data URL 里 `d='…'` 换成别的帖用同样参数生成的路径；每个符号在 CSS 里写了两遍（带 `-webkit-` 前缀的一行和不带前缀的一行），两行都要改，并相应修改 `scripts/ground.js` 末尾的核对。
+- About 列表的四个符号是 CSS 遮罩（`.themes li::before` 里的 data URL），依次是真木柱、帚木、手習、澪標（第四条「High-frequency quantitative trading」，即 Akanezora Capital；澪標是引导船只的航道标），路径是 `render(groups, {width: 13, stroke: 1})`。要换，就把 data URL 里 `d='…'` 换成别的帖用同样参数生成的路径；每个符号在 CSS 里写了两遍（带 `-webkit-` 前缀的一行和不带前缀的一行），两行都要改，并相应修改 `scripts/ground.js` 末尾的核对。
 - 所有路径都由核对过的渲染器 `tools/genji/genji.js` 生成（数据集是同目录的 `genji.json`，出处与画法规则见 `tools/genji/README.md`，`python3 -B tools/genji/check.py` 可自检）。请不要手改这些路径。
 
 ### 颜色
 
 - 染料：`--ya`（矢絣的藤色）、`--sg`（青海波的浅缥）是它们最浓处的颜色；`--ya-thin`、`--sg-thin` 是淡处用的颜色，色相更偏蓝一点、彩度更高一点，以较低的强度叠在纸上。藤色和米色的纸几乎是补色，直接混会在半淡处变成发灰的粉色；用偏蓝的淡色，淡下去的地方仍是浅藤色 / 浅青色，直到几乎看不见。深色模式下四者都是比底色稍亮的暗色（夜里的藤色、深青）。
+- 页面默认是深色：`<html>` 上写了 `data-theme="dark"`，所以不管访客系统设置是什么、甚至没有 JavaScript，打开时都是深色。访客点右上角的昼/夜按钮后，选择记在浏览器的 `localStorage` 里（键名 `theme-choice`），下次打开沿用。想改回跟随系统设置，删掉 `<html>` 上的 `data-theme="dark"` 即可。
 - 切换昼/夜时整页一次换色，没有渐变。
 - 浅色模式最浅的文字（`--ink-soft`）对纸色的对比度是 5.7:1，深色模式 6.8:1；压在中染上时最低约 4.6:1（浅色）和 5.7:1（深色）。改 `--paper` 或 `--ink-soft` 时不要让它低于 4.5:1，并照上面的量法再量一次压在纹样上的那几行。
 

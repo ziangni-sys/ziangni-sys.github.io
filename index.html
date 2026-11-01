@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,8 @@
   <link rel="stylesheet" href="assets/style.css">
   <script>
     // Apply a saved light/dark choice before first paint.
-    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+    // The page opens dark (data-theme on <html>); a visitor's own choice from the 昼/夜 button is remembered.
+    try { var t = localStorage.getItem('theme-choice'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
   </script>
 </head>
 <body>
@@ -77,7 +78,7 @@
           <li><b>Hidden beliefs of conforming agents.</b> In an Asch-style debate, agents that give in to a unanimous majority can still represent the premise behind their original answer: an unstated bridge entity, read from the residual stream with the Jacobian lens. With Peng Zou.</li>
           <li><b>Reliability of stochastically trained models.</b> How far difficulty scores, representation measurements and leaderboard gaps hold up across seeds, replicate populations and prompts. With Yifeng Li.</li>
           <li><b>Auditable LLM reasoning.</b> Markov logic networks that combine LLM confidence scores with soft and hard logical constraints, supervised by <a href="https://www.tudelft.nl/en/staff/j.yang.3/">Prof. Jie Yang</a>.</li>
-          <li><b>Akanezora Capital.</b> Founder of a high-frequency quantitative trading firm with substantial returns.</li>
+          <li><b>High-frequency quantitative trading.</b> Founded <span class="firm"><img src="assets/akanezora.svg" alt="" width="18" height="18">Akanezora Capital</span>, a trading firm with substantial returns.</li>
         </ul>
       </section>
 
@@ -204,7 +205,7 @@
         var dark = set ? set === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
         var next = dark ? 'light' : 'dark';
         root.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch (e) {}
+        try { localStorage.setItem('theme-choice', next); } catch (e) {}
       });
       document.querySelectorAll('button[aria-controls]').forEach(function (b) {
         b.addEventListener('click', function () {
