@@ -7,6 +7,7 @@ Ziang Ni 的学术主页，纯静态 HTML/CSS，无需构建，GitHub Pages 直�
 - `index.html`: 全部内容（首页标题、About、News、Publications、Projects、联系方式）
 - `assets/style.css`: 样式、配色和背景纹样。颜色都是 `:root` 里的变量，深色模式的取值紧跟其后（`prefers-color-scheme` 和 `data-theme="dark"` 两处，改色时两处都要改）
 - `assets/favicon.svg`: 网站图标（藏青底上的「真木柱」）
+- `assets/akanezora.svg`: Akanezora Capital 的标志（原图去掉了四周的留白），在 About 最后一段公司名前当作小印章显示
 - `scripts/ground.js`: 生成两个纹样单元（矢絣、青海波）的脚本（Node，无依赖）。运行 `node scripts/ground.js`，它只改写 `assets/style.css` 里 `/* gen:tiles */` 与 `/* /gen:tiles */` 之间的四行变量，标记以外的部分不动；运行两次结果相同。它还会核对页眉的家纹、About 列表的三个符号和 favicon 是否仍与渲染器画出的一致，不一致就报错退出
 - `tools/genji/`: 核对过的源氏香数据集和渲染器（见该目录的 README）
 - `assets/ziang_ni_cv.pdf`: 网页上链接的 CV，由 LaTeX 源文件编译而成，只是页眉里去掉了电话号码。更新 CV 时直接用新 PDF 覆盖这个文件（文件名不变，页面上的链接就不用改）
