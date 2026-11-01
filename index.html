@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ziang Ni</title>
+  <meta name="description" content="Ziang Ni — B.Sc. student in Computer Science and Engineering at Delft University of Technology, working on reliable LLM agents, interpretability and multi-agent systems.">
+  <meta name="author" content="Ziang Ni">
+  <meta property="og:title" content="Ziang Ni">
+  <meta property="og:description" content="Reliable LLM agents, interpretability and multi-agent systems. B.Sc. student at TU Delft.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <!-- Shippori Mincho is loaded only for the CJK characters the page shows (text=…): 壹貳參肆昼夜 -->
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600&text=%E5%A3%B9%E8%B2%B3%E5%8F%83%E8%82%86%E6%98%BC%E5%A4%9C&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    // Apply a saved light/dark choice before first paint.
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+</head>
+<body>
+  <!-- the dyed ground (yagasuri pooling at the head, seigaiha rising from the foot) is drawn by
+       body::before and body::after in assets/style.css; it has no markup of its own -->
+  <a class="skip" href="#about">Skip to content</a>
+
+  <header class="masthead">
+    <a class="brand" href="#top" aria-label="Ziang Ni, home">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="20" r="18.6"/><path transform="translate(9.5 9.5)" stroke-width="1.9" d="M0.95 21V0.95H20.05V21M5.725 21V5.725H15.275V21M10.5 21V9.55"/></svg>
+      <span class="brand-name">Ziang Ni</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="#about">About</a>
+      <a href="#news">News</a>
+      <a href="#publications">Publications</a>
+      <a href="#projects">Projects</a>
+      <a href="assets/ziang_ni_cv.pdf">CV</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Switch between day and night colours">
+      <span class="day" aria-hidden="true">昼</span><span class="night" aria-hidden="true">夜</span>
+    </button>
+  </header>
+
+  <main id="top">
+  <div class="hero">
+    <h1>Ziang Ni</h1>
+    <p class="field">LLM agents &middot;&nbsp;interpretability &middot;&nbsp;multi-agent systems</p>
+    <p class="affil">Delft University of Technology<br><span>B.Sc. student, Computer Science and Engineering</span></p>
+  </div>
+
+  <div class="layout">
+    <aside class="profile" aria-label="Profile">
+      <!-- A portrait can go here later:
+           <div class="portrait"><img src="assets/photo.jpg" alt="Portrait of Ziang Ni"></div> -->
+      <ul class="contact">
+        <li><span class="label">Email</span> <a href="mailto:ziangni@tudelft.nl">ziangni@tudelft.nl</a></li>
+        <li><span class="label">CV</span> <a href="assets/ziang_ni_cv.pdf" aria-label="CV (PDF)">PDF</a></li>
+        <li><span class="label">GitHub</span> <a href="https://github.com/ziangni-sys">ziangni-sys</a></li>
+      </ul>
+    </aside>
+
+    <div class="content">
+      <section id="about">
+        <h2><span class="numeral" aria-hidden="true">壹</span>About</h2>
+        <p>
+          I am a second-year B.Sc. student in Computer Science and Engineering at Delft University of Technology,
+          after a first year in Artificial Intelligence at Beijing Normal University.
+        </p>
+        <p>
+          I study the reliability and factuality of LLM agents under social pressure, interpretability, and
+          multi-agent systems: what models represent beneath what they say, and how far we can trust the numbers
+          we measure from them.
+        </p>
+        <ul class="themes">
+          <li><b>Hidden beliefs of conforming agents.</b> In an Asch-style debate, agents that give in to a unanimous majority can still represent the premise behind their original answer: an unstated bridge entity, read from the residual stream with the Jacobian lens. With Peng Zou.</li>
+          <li><b>Reliability of stochastically trained models.</b> How far difficulty scores, representation measurements and leaderboard gaps hold up across seeds, replicate populations and prompts. With Yifeng Li.</li>
+          <li><b>Auditable LLM reasoning.</b> Markov logic networks that combine LLM confidence scores with soft and hard logical constraints, supervised by <a href="https://www.tudelft.nl/en/staff/j.yang.3/">Prof. Jie Yang</a>.</li>
+        </ul>
+      </section>
+
+      <section id="news">
+        <h2><span class="numeral" aria-hidden="true">貳</span>News</h2>
+        <ol class="news">
+          <li>
+            <time datetime="2026-10">Oct 2026</time>
+            <p><a href="https://arxiv.org/abs/2610.38015"><i>Measured or Real?</i></a>, joint work with Yifeng Li, is on arXiv.</p>
+          </li>
+          <li>
+            <time datetime="2026-10">Oct 2026</time>
+            <p>First on the solver leaderboard of <a href="https://github.com/The-Last-Math-Competition/The-Last-Math-Competition">The Last Math Competition</a>: 193 conjectures resolved, each formalized in Lean&nbsp;4.</p>
+          </li>
+          <li>
+            <time datetime="2026-10">Oct 2026</time>
+            <p><a href="https://arxiv.org/abs/2610.02702"><i>Silent Dissent</i></a>, with Peng Zou, is on arXiv, with code and pre-registration.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="publications">
+        <h2><span class="numeral" aria-hidden="true">參</span>Publications</h2>
+        <p class="note"><sup>*</sup>&thinsp;Equal contribution.</p>
+        <ol class="pubs">
+          <li class="pub">
+            <div class="pub-tag">Preprint<br><span>2026</span></div>
+            <div class="pub-body">
+              <a class="pub-title" id="t-silent" href="https://arxiv.org/abs/2610.02702">Silent Dissent: LLM Agents That Yield to the Majority Still Represent Their Original Premise</a>
+              <p class="pub-authors"><span class="me">Ziang Ni</span><sup>*</sup>, Peng Zou<sup>*</sup></p>
+              <p class="pub-abstract">
+                When an agent in a multi-agent debate drops a correct answer to join a unanimous majority, has it
+                changed its mind or only its statement? Decoding the unstated bridge entity of two-hop facts from the
+                residual stream, we find that in three of four models, agents who gave in still represent their original premise.
+              </p>
+              <div class="pub-links">
+                <a class="pill" aria-describedby="t-silent" href="https://arxiv.org/abs/2610.02702">arXiv</a>
+                <a class="pill" aria-describedby="t-silent" href="https://github.com/ziangni-sys/silent-dissent/blob/main/paper/silent_dissent_supplement.pdf">Supplement</a>
+                <a class="pill" aria-describedby="t-silent" href="https://github.com/ziangni-sys/silent-dissent">Code</a>
+                <button class="pill" aria-describedby="t-silent" type="button" aria-expanded="false" aria-controls="bib-silent">BibTeX</button>
+              </div>
+<pre class="bibtex" id="bib-silent" hidden>@misc{ni2026silentdissent,
+  title         = {Silent Dissent: {LLM} Agents That Yield to the Majority Still Represent Their Original Premise},
+  author        = {Ni, Ziang and Zou, Peng},
+  year          = {2026},
+  eprint        = {2610.02702},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2610.02702}
+}</pre>
+            </div>
+          </li>
+          <li class="pub">
+            <div class="pub-tag">Preprint<br><span>2026</span></div>
+            <div class="pub-body">
+              <a class="pub-title" id="t-measured" href="https://arxiv.org/abs/2610.38015">Measured or Real? When Model-Derived Measurements Can Be Corrected or Compared</a>
+              <p class="pub-authors">Yifeng Li<sup>*</sup>, <span class="me">Ziang Ni</span><sup>*</sup></p>
+              <p class="pub-abstract">
+                Numbers computed from trained models shift with the training seed and the prompt. We give a bounded
+                correction for correlations under replicate noise and simultaneous intervals that name a winner only when
+                every prompt protocol agrees, and show that aligning embedding coordinates across seeds makes
+                per-dimension measurements reliable.
+              </p>
+              <div class="pub-links">
+                <a class="pill" aria-describedby="t-measured" href="https://arxiv.org/abs/2610.38015">arXiv</a>
+                <a class="pill" aria-describedby="t-measured" href="https://github.com/ziangni-sys/measured-or-real">Code &amp; data</a>
+                <button class="pill" aria-describedby="t-measured" type="button" aria-expanded="false" aria-controls="bib-measured">BibTeX</button>
+              </div>
+<pre class="bibtex" id="bib-measured" hidden>@misc{li2026measured,
+  title         = {Measured or Real? {W}hen Model-Derived Measurements Can Be Corrected or Compared},
+  author        = {Li, Yifeng and Ni, Ziang},
+  year          = {2026},
+  eprint        = {2610.38015},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2610.38015}
+}</pre>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="projects">
+        <h2><span class="numeral" aria-hidden="true">肆</span>Projects</h2>
+        <ul class="projects">
+          <li>
+            <a class="proj-title" href="https://github.com/The-Last-Math-Competition/The-Last-Math-Competition">The Last Math Competition</a>
+            <p>
+              First on the solver leaderboard. As of 19 October 2026, 193 conjectures resolved (16 proofs,
+              177 disproofs), all first solves, each with a LaTeX write-up and a Lean&nbsp;4 formalization that
+              passed full audit.
+            </p>
+          </li>
+          <li>
+            <a class="proj-title" href="https://github.com/ziangni-sys/claude-passnote">Passnote</a>
+            <p>
+              A tiny mailbox for Claude Code agents on different computers, so that agents working on one project
+              can pass short notes to each other directly. One standard-library Python server with SQLite, and a
+              plugin with MCP tools and hooks on each machine, off unless a session opts in.
+            </p>
+          </li>
+          <li>
+            <span class="proj-title">Optiver Trading Hackathon</span> <span class="proj-meta">Rotterdam, 2025</span>
+            <p>An automated options-trading algorithm with Black&#8288;&ndash;&#8288;Scholes pricing and Greeks.</p>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  </main>
+
+  <footer class="colophon">
+    <div class="colophon-text">
+      <p>&copy; 2026 Ziang Ni</p>
+      <p>Last updated October 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      document.querySelector('.theme-toggle').addEventListener('click', function () {
+        var set = root.getAttribute('data-theme');
+        var dark = set ? set === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        var next = dark ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+      document.querySelectorAll('button[aria-controls]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var pre = document.getElementById(b.getAttribute('aria-controls'));
+          var open = b.getAttribute('aria-expanded') === 'true';
+          b.setAttribute('aria-expanded', String(!open));
+          pre.hidden = open;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

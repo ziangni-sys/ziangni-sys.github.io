@@ -1,0 +1,577 @@
+/* Washi paper, indigo ink and one vermilion. The paper itself is dyed: wisteria yagasuri pools at the
+   head of the page, deepest in the empty right half beside the name and only a veil behind the
+   masthead; pale seigaiha rises from the foot at the left. Down the page between them the two dyes
+   alternate in light pools, yagasuri from the right and seigaiha from the left, so that about half
+   the paper carries pattern; where a pool lies under the words it stays light enough for every line
+   of text to keep its contrast (see README). */
+:root {
+  --paper: #f4eee1;
+  --paper-2: #ece4d0;
+  --ink: #1f2933;
+  --ink-soft: #565d66;
+  --indigo: #1c3657;
+  --line: #22466c;
+  --mist: #cfdbe3;
+  --rule: #d8cbae;
+  --sand: #b8a47b;
+  --link: #1f4a75;
+  --vermilion: #b8402a;
+
+  /* the dyes. --ya and --sg: the colour of each pattern where it is deepest; --ya-thin and --sg-thin:
+     the colour it thins out in. The thin colours lean a little further toward blue and are laid on
+     at low strength, so a fading dye stays a pale wisteria or a pale indigo all the way out and never
+     turns the grey-pink that lavender and cream make when they are simply mixed. */
+  --ya: #c6c9ed;       /* 矢絣, wisteria (藤色) */
+  --ya-thin: #c9d1fe;
+  --sg: #91aacb;       /* 青海波, pale indigo (浅縹) */
+  --sg-thin: #a4c0e8;
+
+  /* how each dye fades, from where it is deepest (0) to the edge of a swell (100%): -deep for a deep
+     pool, -thin-veil for a light veil that never reaches full depth */
+  --ya-deep: var(--ya) 0 18%, color-mix(in srgb, var(--ya-thin) 64%, transparent) 42%,
+    color-mix(in srgb, var(--ya-thin) 32%, transparent) 63%, color-mix(in srgb, var(--ya-thin) 11%, transparent) 83%, transparent;
+  --ya-thin-veil: color-mix(in srgb, var(--ya-thin) 36%, transparent), color-mix(in srgb, var(--ya-thin) 20%, transparent) 38%,
+    color-mix(in srgb, var(--ya-thin) 7%, transparent) 70%, transparent;
+  --sg-deep: var(--sg) 0 18%, color-mix(in srgb, var(--sg-thin) 66%, transparent) 42%,
+    color-mix(in srgb, var(--sg-thin) 34%, transparent) 63%, color-mix(in srgb, var(--sg-thin) 12%, transparent) 83%, transparent;
+  --sg-thin-veil: color-mix(in srgb, var(--sg-thin) 44%, transparent), color-mix(in srgb, var(--sg-thin) 24%, transparent) 38%,
+    color-mix(in srgb, var(--sg-thin) 8%, transparent) 70%, transparent;
+  /* -mid: the light pools down the page, which may lie under text, so they never come near full depth */
+  --ya-mid: color-mix(in srgb, var(--ya-thin) 42%, transparent) 0 28%, color-mix(in srgb, var(--ya-thin) 30%, transparent) 55%,
+    color-mix(in srgb, var(--ya-thin) 14%, transparent) 80%, transparent;
+  --sg-mid: color-mix(in srgb, var(--sg-thin) 44%, transparent) 0 28%, color-mix(in srgb, var(--sg-thin) 31%, transparent) 55%,
+    color-mix(in srgb, var(--sg-thin) 14%, transparent) 80%, transparent;
+
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --cjk: "Shippori Mincho", "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --measure: 67.5rem;  /* 1080px at the usual 16px; in rem, so the page grows with a reader's larger font */
+  --gutter: 24px;
+
+  /* where the dyes lie (in rem, so they keep their place against the words when a reader's default
+     font is larger). Each dye is a deep pool and two or three veils of different sizes, so its edge
+     wanders as hand-dyed bokashi does. -pool: the pool's size, and -pool-y how far down the right
+     edge the yagasuri pool is deepest; -a, -b, -c: each veil's size and where along the edge it lies.
+     The yagasuri veils are faint enough for the nav to keep its grey (see README) */
+  --ya-pool: min(64vw, 60rem) 16rem;  --ya-pool-y: 10rem;
+  --ya-a: min(30vw, 26rem) 8rem;      --ya-a-x: 100%;
+  --ya-b: min(30vw, 26rem) 5rem;      --ya-b-x: 46%;
+  --ya-c: min(20vw, 16rem) 3rem;      --ya-c-x: 76%;
+  --sg-pool: min(72vw, 62rem) 30rem;
+  --sg-a: min(28vw, 24rem) 7.5rem;    --sg-a-x: 38%;
+  --sg-b: min(16vw, 14rem) 4rem;      --sg-b-x: 94%;
+  /* the light pools down the page: size, and where each is centred (across, and down as a share of
+     the page's height); they alternate sides so the two patterns rarely lie on top of each other */
+  --sg-m1: min(66vw, 58rem) 28rem;    --sg-m1-at: 0 22%;
+  --ya-m1: min(66vw, 58rem) 28rem;    --ya-m1-at: 100% 40%;
+  --sg-m2: min(68vw, 60rem) 30rem;    --sg-m2-at: 22% 59%;
+  --ya-m2: min(64vw, 56rem) 28rem;    --ya-m2-at: 100% 77%;
+
+  /* the two pattern tiles, written by scripts/ground.js: shape only, used as masks */
+  /* gen:tiles */
+  --yagasuri: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='56'%3E%3Cpath d='M0 10L9.5 0.5V28.5L0 38ZM20 10L10.5 0.5V28.5L20 38ZM20 38L29.5 28.5V56.5L20 66ZM40 38L30.5 28.5V56.5L40 66ZM20 -18L29.5 -27.5V0.5L20 10ZM40 -18L30.5 -27.5V0.5L40 10Z'/%3E%3C/svg%3E");
+  --yagasuri-size: 40px 56px;
+  --seigaiha: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24'%3E%3Cmask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='48' height='24'%3E%3Ccircle cx='0' cy='0' r='24'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.25' d='M-23.375 0a23.375 23.375 0 1 1 46.75 0a23.375 23.375 0 1 1 -46.75 0M-18 0a18 18 0 1 1 36 0a18 18 0 1 1 -36 0M-12 0a12 12 0 1 1 24 0a12 12 0 1 1 -24 0M-6 0a6 6 0 1 1 12 0a6 6 0 1 1 -12 0'/%3E%3Ccircle cx='48' cy='0' r='24'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.25' d='M24.625 0a23.375 23.375 0 1 1 46.75 0a23.375 23.375 0 1 1 -46.75 0M30 0a18 18 0 1 1 36 0a18 18 0 1 1 -36 0M36 0a12 12 0 1 1 24 0a12 12 0 1 1 -24 0M42 0a6 6 0 1 1 12 0a6 6 0 1 1 -12 0'/%3E%3Ccircle cx='24' cy='12' r='24'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.25' d='M0.625 12a23.375 23.375 0 1 1 46.75 0a23.375 23.375 0 1 1 -46.75 0M6 12a18 18 0 1 1 36 0a18 18 0 1 1 -36 0M12 12a12 12 0 1 1 24 0a12 12 0 1 1 -24 0M18 12a6 6 0 1 1 12 0a6 6 0 1 1 -12 0'/%3E%3Ccircle cx='0' cy='24' r='24'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.25' d='M-23.375 24a23.375 23.375 0 1 1 46.75 0a23.375 23.375 0 1 1 -46.75 0M-18 24a18 18 0 1 1 36 0a18 18 0 1 1 -36 0M-12 24a12 12 0 1 1 24 0a12 12 0 1 1 -24 0M-6 24a6 6 0 1 1 12 0a6 6 0 1 1 -12 0'/%3E%3Ccircle cx='48' cy='24' r='24'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.25' d='M24.625 24a23.375 23.375 0 1 1 46.75 0a23.375 23.375 0 1 1 -46.75 0M30 24a18 18 0 1 1 36 0a18 18 0 1 1 -36 0M36 24a12 12 0 1 1 24 0a12 12 0 1 1 -24 0M42 24a6 6 0 1 1 12 0a6 6 0 1 1 -12 0'/%3E%3Ccircle cx='24' cy='36' r='24'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.25' d='M0.625 36a23.375 23.375 0 1 1 46.75 0a23.375 23.375 0 1 1 -46.75 0M6 36a18 18 0 1 1 36 0a18 18 0 1 1 -36 0M12 36a12 12 0 1 1 24 0a12 12 0 1 1 -24 0M18 36a6 6 0 1 1 12 0a6 6 0 1 1 -12 0'/%3E%3C/mask%3E%3Crect width='48' height='24' mask='url(%23m)'/%3E%3C/svg%3E");
+  --seigaiha-size: 48px 24px;
+  /* /gen:tiles */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #101a25;
+    --paper-2: #16232f;
+    --ink: #e6dfcd;
+    --ink-soft: #a5a291;
+    --indigo: #c9d9e7;
+    --line: #a9c3da;
+    --mist: #26394c;
+    --rule: #2b3b4c;
+    --sand: #6e6249;
+    --link: #a9c8e2;
+    --vermilion: #e0745a;
+
+    --ya: #29283f;
+    --ya-thin: #292a49;
+    --sg: #283e54;
+    --sg-thin: #283f59;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #101a25;
+  --paper-2: #16232f;
+  --ink: #e6dfcd;
+  --ink-soft: #a5a291;
+  --indigo: #c9d9e7;
+  --line: #a9c3da;
+  --mist: #26394c;
+  --rule: #2b3b4c;
+  --sand: #6e6249;
+  --link: #a9c8e2;
+  --vermilion: #e0745a;
+
+  --ya: #29283f;
+  --ya-thin: #292a49;
+  --sg: #283e54;
+  --sg-thin: #283f59;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  position: relative;          /* the two dyes are laid on the body, from its head and from its foot */
+  min-height: 100vh;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.1875rem;
+  line-height: 1.62;
+  font-variant-numeric: oldstyle-nums;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- the ground ---------- */
+/* Each dye is a layer the full width of the page, cut to the pattern by its tile (a mask) and coloured
+   by gradients that thin the dye out to nothing, so the pattern fades away as its colour does. A deep
+   pool and a few lighter veils of different sizes overlap, so the dyed edge wanders like hand-dyed
+   bokashi rather than running level. */
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+/* 矢絣 from the head: a deep pool down the right edge, in the empty half of the hero, and only veils
+   along the top, from the right corner to the middle; the brand and the name stand on plain paper */
+body::before {
+  top: 0;
+  bottom: 0;
+  background:
+    radial-gradient(var(--ya-pool) at 100% var(--ya-pool-y), var(--ya-deep)),
+    radial-gradient(var(--ya-m1) at var(--ya-m1-at), var(--ya-mid)),
+    radial-gradient(var(--ya-m2) at var(--ya-m2-at), var(--ya-mid)),
+    radial-gradient(var(--ya-a) at var(--ya-a-x) 0, var(--ya-thin-veil)),
+    radial-gradient(var(--ya-b) at var(--ya-b-x) 0, var(--ya-thin-veil)),
+    radial-gradient(var(--ya-c) at var(--ya-c-x) 0, var(--ya-thin-veil));
+  -webkit-mask: var(--yagasuri) 50% 0 / var(--yagasuri-size) repeat;
+          mask: var(--yagasuri) 50% 0 / var(--yagasuri-size) repeat;
+}
+/* 青海波 from the foot: deepest at the left, beneath the sidebar, and two lower veils further along,
+   with plain paper between them, so it never runs as an even band along the foot */
+body::after {
+  top: 0;
+  bottom: 0;
+  background:
+    radial-gradient(var(--sg-pool) at 0 100%, var(--sg-deep)),
+    radial-gradient(var(--sg-m1) at var(--sg-m1-at), var(--sg-mid)),
+    radial-gradient(var(--sg-m2) at var(--sg-m2-at), var(--sg-mid)),
+    radial-gradient(var(--sg-a) at var(--sg-a-x) 100%, var(--sg-thin-veil)),
+    radial-gradient(var(--sg-b) at var(--sg-b-x) 100%, var(--sg-thin-veil));
+  -webkit-mask: var(--seigaiha) 50% 100% / var(--seigaiha-size) repeat;
+          mask: var(--seigaiha) 50% 100% / var(--seigaiha-size) repeat;
+}
+
+::selection { background: var(--mist); color: var(--ink); }
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--sand);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .2em;
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+a:hover { color: var(--vermilion); text-decoration-color: currentColor; }
+:focus-visible { outline: 2px solid var(--vermilion); outline-offset: 3px; border-radius: 2px; }
+
+.skip {
+  position: absolute; left: -999px; top: 8px;
+  background: var(--paper-2); padding: .4em .8em; z-index: 200;
+}
+.skip:focus { left: 16px; }
+
+/* ---------- masthead ---------- */
+.masthead {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 22px var(--gutter) 18px;
+  display: flex;
+  flex-wrap: wrap;            /* if the row ever runs out of room, the toggle drops beneath instead of overflowing */
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px 28px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: .65em;
+  color: var(--indigo);
+  text-decoration: none;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  letter-spacing: .14em;
+  font-variant-caps: all-small-caps;
+  white-space: nowrap;
+  margin-right: auto;
+}
+.brand:hover { color: var(--indigo); }
+/* one diagram, 真木柱, ringed like a family crest */
+.brand-mark {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--line);
+}
+.brand-mark circle, .brand-mark path { fill: none; stroke: currentColor; }
+.brand-mark circle { stroke-width: 1.6; }
+.masthead nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0 clamp(1rem, 2.5vw, 1.6rem); }
+.masthead nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-variant-caps: all-small-caps;
+  letter-spacing: .1em;
+  font-size: 1.05rem;
+}
+.masthead nav a:hover { color: var(--vermilion); }
+
+.theme-toggle {
+  appearance: none;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--indigo);
+  width: 2rem; height: 2rem;
+  border-radius: 50%;
+  font-family: var(--cjk);
+  font-size: .95rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid; place-items: center;
+  flex: none;
+}
+.theme-toggle:hover { border-color: var(--vermilion); color: var(--vermilion); }
+.theme-toggle .day { display: none; }
+:root[data-theme="dark"] .theme-toggle .day { display: inline; }
+:root[data-theme="dark"] .theme-toggle .night { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .day { display: inline; }
+  :root:not([data-theme="light"]) .theme-toggle .night { display: none; }
+}
+
+/* ---------- hero: the name, on plain paper beside the yagasuri pool ---------- */
+.hero {
+  width: min(var(--measure), 100%);
+  margin: 0 auto;
+  padding: 5.5rem var(--gutter) 0;
+}
+.hero h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 5rem;
+  line-height: 1;
+  letter-spacing: .03em;
+  color: var(--indigo);
+}
+.hero .field {
+  margin: .85rem 0 0;
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+/* the affiliation, set like the imprint of a title page */
+.hero .affil {
+  margin: 2.4rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--indigo);
+  font-variant-caps: all-small-caps;
+  letter-spacing: .1em;
+}
+.hero .affil span { display: block; color: var(--ink-soft); font-style: italic; font-variant-caps: normal; letter-spacing: 0; }
+
+/* ---------- body layout ---------- */
+.layout {
+  width: min(var(--measure), 100%);
+  margin: 0 auto;
+  padding: 4.5rem var(--gutter) 5rem;
+  display: grid;
+  grid-template-columns: 13.75rem minmax(0, 1fr);
+  gap: 64px;
+}
+
+.profile { position: sticky; top: 28px; align-self: start; }
+/* for a portrait added later (see the comment in index.html) */
+.portrait { margin-bottom: 1.1rem; border: 1px solid var(--rule); }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+
+.contact { list-style: none; margin: .45rem 0 0; padding: 0; font-size: .98rem; }
+.contact li { display: flex; gap: .7rem; align-items: baseline; padding: .18rem 0; overflow-wrap: anywhere; }
+.contact .label {
+  flex: 0 0 3.6rem;
+  color: var(--ink-soft);
+  font-variant-caps: all-small-caps;
+  letter-spacing: .1em;
+}
+
+/* ---------- sections ---------- */
+.content > section + section { margin-top: 3.8rem; }
+.content p { margin: 0 0 1rem; }
+.content > section > p:first-of-type { margin-top: 0; }
+
+h2 {
+  display: flex;
+  align-items: baseline;
+  gap: .8rem;
+  margin: 0 0 1.4rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--indigo);
+  letter-spacing: .02em;
+  scroll-margin-top: 24px;
+}
+section { scroll-margin-top: 24px; }
+h2::after {
+  content: "";
+  flex: 1;
+  align-self: center;
+  height: 1px;
+  background: var(--rule);
+}
+.numeral {
+  align-self: center;
+  font-family: var(--cjk);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--line);
+}
+
+/* each theme is marked with a diagram: 真木柱 (lines held beneath lines), 帚木 (all five apart), 手習 (all five as one) */
+.themes { list-style: none; padding: 0; margin: 1.6rem 0 0; }
+.themes li {
+  position: relative;
+  padding: 0 0 .7rem 2.1rem;
+}
+.themes li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .28em;
+  width: 1.15rem; height: 1.15rem;
+  background: var(--line);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M0.5 13V0.5H12.5V13M3.5 13V3.5H9.5V13M6.5 13V6' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M0.5 13V0.5H12.5V13M3.5 13V3.5H9.5V13M6.5 13V6' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.themes li:nth-child(2)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M12.5 13V0M9.5 13V0M6.5 13V0M3.5 13V0M0.5 13V0' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M12.5 13V0M9.5 13V0M6.5 13V0M3.5 13V0M0.5 13V0' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+}
+.themes li:nth-child(3)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M0.5 13V0.5H12.5V13M3.5 13V0.5M6.5 13V0.5M9.5 13V0.5' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 13'%3E%3Cpath d='M0.5 13V0.5H12.5V13M3.5 13V0.5M6.5 13V0.5M9.5 13V0.5' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+}
+.themes b { font-weight: 600; color: var(--indigo); }
+
+/* news */
+.news { list-style: none; margin: 0; padding: 0; }
+.news li {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.news li:first-child { padding-top: 0; }
+.news time {
+  color: var(--line);
+  font-variant-caps: all-small-caps;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: .08em;
+  padding-top: .1em;
+}
+.news p { margin: 0; }
+
+/* publications */
+.note { font-size: .9rem; color: var(--ink-soft); font-style: italic; }
+.pubs { list-style: none; margin: 0; padding: 0; }
+.pub {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.3rem 0;
+  border-top: 1px solid var(--rule);
+}
+.pub:last-child { border-bottom: 1px solid var(--rule); }
+.pub-tag {
+  font-variant-caps: all-small-caps;
+  letter-spacing: .1em;
+  color: var(--indigo);
+  line-height: 1.25;
+  padding-top: .15em;
+}
+.pub-tag span { color: var(--ink-soft); font-variant-numeric: lining-nums; }
+.pub-title {
+  display: block;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.22;
+  color: var(--ink);
+  text-decoration: none;
+  margin-bottom: .35rem;
+}
+.pub-title:hover { color: var(--vermilion); }
+.pub-authors { margin: 0 0 .5rem !important; }
+.me { font-weight: 600; text-decoration: underline; text-decoration-color: var(--sand); text-underline-offset: .2em; }
+.pub-abstract { font-size: 1rem; color: var(--ink-soft); line-height: 1.55; margin-bottom: .8rem !important; }
+.pub-links { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.pill {
+  appearance: none;
+  display: inline-block;
+  padding: .12em .75em .18em;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--indigo);
+  font: inherit;
+  font-size: .9rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: .1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.pill:hover, .pill[aria-expanded="true"] {
+  background: var(--indigo);
+  border-color: var(--indigo);
+  color: var(--paper);
+}
+
+.bibtex {
+  margin: .8rem 0 0;
+  padding: .9rem 1rem;
+  background: var(--paper-2);
+  border-left: 2px solid var(--line);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: .78rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* projects */
+.projects { list-style: none; margin: 0; padding: 0; }
+/* the place and year share the title's line when there is room, and drop whole beneath it when not */
+.projects li { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .6rem; padding: 0 0 1rem; }
+.projects li > p { flex-basis: 100%; }
+.proj-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+a.proj-title { text-decoration: underline; text-decoration-color: var(--rule); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a.proj-title:hover { color: var(--vermilion); text-decoration-color: currentColor; }
+.proj-meta { font-style: italic; color: var(--ink-soft); font-size: 1rem; white-space: nowrap; }
+.projects p { margin: .2rem 0 0; }
+
+/* ---------- footer, where the seigaiha rises ---------- */
+/* The last rule closes the content column, and the colophon is set to its right, away from where
+   the waves rise highest, as the name at the head stands away from the yagasuri. */
+.colophon {
+  width: min(var(--measure), 100%);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 8rem;   /* the waves stay beneath the last line */
+  display: grid;
+  grid-template-columns: 13.75rem minmax(0, 1fr);
+  column-gap: 64px;
+}
+.colophon-text {
+  grid-column: 2;
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .3rem 2.2rem;
+  font-size: .92rem;
+  letter-spacing: .04em;
+  color: var(--ink-soft);
+}
+.colophon-text p { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  a, .pill { transition: none; }
+}
+
+/* ---------- smaller screens (breakpoints in em, so a larger default font switches earlier) ---------- */
+@media (max-width: 62.5em) {
+  .hero { padding-top: 4.5rem; }
+  .hero h1 { font-size: 4.25rem; }
+}
+
+@media (max-width: 51.25em) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-top: 3.5rem; }
+  .profile { position: static; }
+  .portrait { width: 112px; }
+  .contact { margin: 0; display: flex; flex-wrap: wrap; gap: 0 2rem; }
+  .contact .label { flex-basis: auto; }
+  .colophon { grid-template-columns: minmax(0, 1fr); }
+  .colophon-text { grid-column: 1; }
+}
+
+@media (max-width: 38.75em) {
+  :root {
+    --gutter: 16px;
+    /* on a phone the yagasuri pool lies beside the name, between the nav and the line beneath it,
+       and the corner veil (-a) runs down the right edge to it */
+    --ya-pool: 50% 5.4rem;  --ya-pool-y: 9.4rem;
+    --ya-a: 46% 10rem;
+    --ya-b: 40% 2.6rem;     --ya-b-x: 44%;
+    --ya-c: 24% 2rem;       --ya-c-x: 74%;
+    --sg-pool: 66% 7.4rem;
+    --sg-a: 40% 3.4rem;     --sg-a-x: 50%;
+    --sg-b: 30% 2.6rem;     --sg-b-x: 92%;
+    /* the page is narrow and long: the light pools reach most of the way across */
+    --sg-m1: 110% 24rem;
+    --ya-m1: 110% 24rem;
+    --sg-m2: 115% 26rem;    --sg-m2-at: 20% 58%;
+    --ya-m2: 105% 23rem;
+  }
+  body { font-size: 1.0625rem; }
+  .masthead { flex-wrap: wrap; gap: 10px 16px; padding: 16px 16px 12px; }
+  .masthead nav { order: 3; width: 100%; flex-wrap: nowrap; justify-content: flex-start; gap: 1.1rem; overflow-x: auto; scrollbar-width: none; }
+  .masthead nav::-webkit-scrollbar { display: none; }
+  .hero { padding-top: 3.25rem; }
+  .hero h1 { font-size: 2.9rem; }
+  .hero .affil { margin-top: 1.6rem; }
+  .layout { padding: 3rem var(--gutter) 56px; }
+  h2 { font-size: 1.7rem; }
+  .news li, .pub { grid-template-columns: minmax(0, 1fr); gap: .15rem; }
+  .pub-tag br { display: none; }
+  .pub-tag span::before { content: " · "; }
+  .pub-title { font-size: 1.25rem; }
+  .colophon { padding-bottom: 7rem; }
+}
+
+@media (max-width: 30em) {
+  .portrait { width: 92px; }
+  .contact { display: block; }
+  .contact .label { flex-basis: 3.6rem; }
+}
+
+/* five nav items on a narrow phone: spread them across the row instead of letting the last one scroll out of view */
+@media (max-width: 25em) {
+  .masthead nav { gap: .4rem; justify-content: space-between; }
+  .masthead nav a { letter-spacing: .04em; }
+}
